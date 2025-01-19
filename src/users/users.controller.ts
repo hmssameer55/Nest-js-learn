@@ -7,7 +7,13 @@ import {
   Body,
   ParseIntPipe,
   DefaultValuePipe,
+  Headers,
+  Ip,
+  ValidationPipe,
+  Patch,
 } from '@nestjs/common';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { PatchUserDto } from './dtos/patch-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -21,9 +27,20 @@ export class UsersController {
     console.log(page);
     return 'You sent a get request to users';
   }
+
   @Post()
-  public createUsers(@Body() body: any) {
-    console.log('body: ', body);
+  public createUsers(
+    @Body() CreateUserDto: CreateUserDto,
+    @Headers() headers: any,
+    @Ip() ip: any,
+  ) {
+    console.log('body: ', CreateUserDto);
     return 'You sent a post request to users';
+  }
+
+  @Patch()
+  public patchUsers(@Body() PatchUserDto: PatchUserDto) {
+    console.log('body', PatchUserDto);
+    return 'You sent a patch request to users';
   }
 }

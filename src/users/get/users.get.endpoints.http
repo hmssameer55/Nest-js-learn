@@ -5,5 +5,15 @@ Content-Type: application/json
 
 {
     "firstname":"sameer",
-    "lastname":"sha"
+    "lastname":"sha",
+    "email":"hms@gmail.com",
+    "password":"Sameer@62",
+    "isAuth":true
+}
+
+PATCH http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "firstname":"WAH WAH",
 }
