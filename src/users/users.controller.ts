@@ -14,18 +14,18 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private readonly UsersService: UsersService) {}
   @Get('/:id')
   public getUsers(
     @Param('id', ParseIntPipe) id: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-  ) {
-    console.log(limit);
-    console.log(page);
-    return 'You sent a get request to users';
+  ): string {
+    return this.UsersService.greetAllUsers();
   }
 
   @Post()
