@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-  greetAllUsers(): string {
-    return 'Hello users john, cena, miz';
+  greetAllUsers(id: number, limit: number, page: number): string[] {
+    return ['Hello', 'World'];
   }
 }

@@ -1,0 +1,18 @@
+GET http://localhost:3000/posts/2
+
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "title":"sameer",
+    "author":"sha",
+    "content":"lorem ipsum",
+    "tags":[]
+}
+
+PATCH http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "tags":["sameer"]
+}

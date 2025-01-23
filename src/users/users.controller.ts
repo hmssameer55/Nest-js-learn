@@ -24,8 +24,8 @@ export class UsersController {
     @Param('id', ParseIntPipe) id: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-  ): string {
-    return this.UsersService.greetAllUsers();
+  ): string[] {
+    return this.UsersService.greetAllUsers(id, limit, page);
   }
 
   @Post()
