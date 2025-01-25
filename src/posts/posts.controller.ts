@@ -9,17 +9,7 @@ export class PostsController {
   constructor(private readonly PostsService: PostsService) {}
 
   @Get('/:id')
-  public getPosts(@Param('id', ParseIntPipe) id: number, @Ip() ip: any) {
-    return this.PostsService.getAllPosts(id);
-  }
-
-  @Post()
-  public createPosts(@Body() CreatePostDto: CreatePostDto) {
-    return 'You sent a post request to posts';
-  }
-
-  @Patch()
-  public patchPosts(@Body() PatchPostDto: PatchPostDto) {
-    return 'You sent a patch request to posts';
+  public getPosts(@Param('id', ParseIntPipe) userid: number) {
+    return this.PostsService.getAllPosts(userid);
   }
 }
