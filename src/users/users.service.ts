@@ -1,12 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
-  greetAllUsers(id: number, limit: number, page: number): string[] {
-    return ['Hello', 'World'];
-  }
+  constructor(
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
+  ) {}
 
-  getUser(id: number): string {
+  public getAllUsers(id: number, limit: number, page: number): any {
+    const isAuth = this.authService.IsAuth();
+
     const users = [
       {
         id: 1,
@@ -19,6 +23,27 @@ export class UsersService {
         email: 'example@gmail.com',
       },
     ];
-    return users.find((user) => user.id === id).name;
+
+    if (isAuth) {
+      return users;
+    } else {
+      return 'You are not authenticated';
+    }
+  }
+
+  getUser(id: number) {
+    const users = [
+      {
+        id: 1,
+        name: 'John Doe',
+        email: 'example@gmail.com',
+      },
+      {
+        id: 2,
+        name: 'cena Doe',
+        email: 'example@gmail.com',
+      },
+    ];
+    return users.find((user) => user.id === id);
   }
 }

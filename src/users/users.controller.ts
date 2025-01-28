@@ -25,7 +25,7 @@ export class UsersController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
   ): string[] {
-    return this.UsersService.greetAllUsers(id, limit, page);
+    return this.UsersService.getAllUsers(id, limit, page);
   }
 
   @Post()
