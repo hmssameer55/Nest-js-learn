@@ -1,12 +1,13 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 
+
 @Injectable()
 export class UsersService {
   constructor(
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
-  ) {}
+  ) { }
 
   public getAllUsers(id: number, limit: number, page: number): any {
     const isAuth = this.authService.IsAuth();
