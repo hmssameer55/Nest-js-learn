@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
+import { CreatePostDto } from './dtos/create-post.dto';
 
 @Injectable()
 export class PostsService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
   getAllPosts(userid: number) {
     return [
       {
@@ -17,5 +18,12 @@ export class PostsService {
         author: this.usersService.getUser(userid),
       },
     ];
+  }
+
+  createPost(CreatePostDto: CreatePostDto) {
+    return {
+      title: CreatePostDto.title,
+      content: CreatePostDto.content,
+    };
   }
 }
