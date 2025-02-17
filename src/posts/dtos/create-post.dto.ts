@@ -28,7 +28,7 @@ export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  @MaxLength(15)
+  @MaxLength(96)
   title: string;
 
   @ApiProperty({
@@ -40,7 +40,7 @@ export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
   @IsEnum(PostType)
-  postType: PostType
+  postType: PostType;
 
   @ApiProperty({
     example: 'slug',
@@ -53,7 +53,7 @@ export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  @MaxLength(15)
+  @MaxLength(50)
   slug: string;
 
   @ApiProperty({
@@ -65,14 +65,14 @@ export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
   @IsEnum(PostStatus)
-  status: PostStatus
+  status: PostStatus;
 
   @ApiPropertyOptional({
     example: 'lorem ipsum diufdi dsifu dfiudf difud ',
     description: 'The content of the post (optional)',
     format: 'string',
     minLength: 10,
-    maxLength: 100,
+    maxLength: 500,
   })
   @IsString()
   @IsOptional()
@@ -90,7 +90,7 @@ export class CreatePostDto {
   @IsString()
   @IsOptional()
   @MinLength(3)
-  @MaxLength(15)
+  @MaxLength(25)
   schema?: string;
 
   @ApiPropertyOptional({
@@ -100,6 +100,7 @@ export class CreatePostDto {
   })
   @IsString()
   @IsOptional()
+  @MaxLength(200)
   featuredImageUrl?: string;
 
   @ApiPropertyOptional({
@@ -118,6 +119,6 @@ export class CreatePostDto {
   })
   @IsArray()
   @IsString({ each: true })
-  @IsNotEmpty()
-  tags: string[];
+  @IsOptional()
+  tags?: string[];
 }

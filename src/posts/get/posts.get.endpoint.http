@@ -9,8 +9,8 @@ Content-Type: application/json
     "status": "draft",
     "content":"lorem ipusm lid kdif di fidi",
     "featuredImageUrl":"image link here",
-    "publishedAt":"2021-09-09T00:00:00.000Z",
-    "tags":["sameer"]
+    "publishedAt":"2021-09-09T00:00:00.000Z"
+    // "tags":["sameer"]
     // "metaOptions": [
     //     {
     //         "key": "sameer",

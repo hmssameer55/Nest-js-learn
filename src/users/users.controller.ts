@@ -57,8 +57,8 @@ export class UsersController {
     @Headers() headers: any,
     @Ip() ip: any,
   ) {
-    // console.log('body: ', CreateUserDto);
-    return 'You sent a post request to users';
+    // return 'You sent a post request to users';
+    return this.UsersService.createUser(CreateUserDto);
   }
 
   @Patch()
