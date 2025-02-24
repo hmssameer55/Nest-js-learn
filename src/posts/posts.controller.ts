@@ -8,12 +8,12 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('posts')
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly PostsService: PostsService) {}
+  constructor(private readonly PostsService: PostsService) { }
 
-  @Get('/:id')
+  @Get('/')
   @ApiOperation({ summary: 'Get a post' })
-  public getPosts(@Param('id', ParseIntPipe) userid: number) {
-    return this.PostsService.getAllPosts(userid);
+  public getPosts() {
+    return this.PostsService.getAllPosts();
   }
 
   @Post()

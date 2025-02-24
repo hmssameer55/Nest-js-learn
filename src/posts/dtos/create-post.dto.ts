@@ -15,6 +15,8 @@ import {
 import { PostType } from '../enums/postType.enum';
 import { PostStatus } from '../enums/postStatus.enum';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { CreatePostSEODto } from 'src/posts_SEO/dto/create-post-seo.dto';
+import { Type } from 'class-transformer';
 
 export class CreatePostDto {
   @ApiProperty({
@@ -121,4 +123,9 @@ export class CreatePostDto {
   @IsString({ each: true })
   @IsOptional()
   tags?: string[];
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Type(() => CreatePostSEODto)
+  seo: CreatePostSEODto | null;
 }

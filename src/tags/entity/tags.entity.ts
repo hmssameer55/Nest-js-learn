@@ -22,7 +22,7 @@ export class Tag {
 
   @Column({
     type: 'varchar',
-    length: 96,
+    length: 250,
     nullable: false,
     unique: true,
   })
@@ -33,13 +33,6 @@ export class Tag {
     nullable: false,
   })
   description: string;
-
-  @Column({
-    type: 'varchar',
-    length: 96,
-    nullable: true,
-  })
-  schema: string;
 
   @Column({
     type: 'varchar',

@@ -1,22 +1,21 @@
-GET http://localhost:3000/posts/2
+GET http://localhost:3000/posts/
 
 POST http://localhost:3000/posts
 Content-Type: application/json
 {
-    "title":"sameer",
+    "title":"with cascade",
     "postType" : "post",
     "slug" : "abc",
     "status": "draft",
     "content":"lorem ipusm lid kdif di fidi",
     "featuredImageUrl":"image link here",
-    "publishedAt":"2021-09-09T00:00:00.000Z"
+    "publishedAt":"2021-09-09T00:00:00.000Z",
+    "seo": {
+        "metaTitle":"sameer",
+        "metaDescription":"sameer",
+        "metaKeywords":"sameer"
+    }
     // "tags":["sameer"]
-    // "metaOptions": [
-    //     {
-    //         "key": "sameer",
-    //         "value": "sameer"
-    //     }
-    // ]
 }
 
 PATCH http://localhost:3000/posts

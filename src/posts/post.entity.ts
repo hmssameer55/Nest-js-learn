@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { PostType } from './enums/postType.enum';
 import { PostStatus } from './enums/postStatus.enum';
+import { PostSEO } from 'src/posts_SEO/entity/posts_SEO.entity';
 
 @Entity()
 export class Post {
@@ -63,10 +64,11 @@ export class Post {
   })
   publishedAt: Date;
 
-  @Column({
-    type: 'varchar',
-    length: 96,
-    nullable: true,
+  @OneToOne(() => PostSEO, {
+    cascade: true
   })
+  @JoinColumn()
+  seo: PostSEO;
+
   tags: string[];
 }

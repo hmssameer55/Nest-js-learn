@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { Post } from './posts/post.entity';
+import { Tag } from './tags/entity/tags.entity';
+import { PostSEO } from './posts_SEO/entity/posts_SEO.entity';
 
 @Module({
   imports: [
@@ -17,7 +19,8 @@ import { Post } from './posts/post.entity';
       imports: [],
       inject: [],
       useFactory: async () => ({
-        entities: [User, Post],
+        entities: [User, Post, Tag, PostSEO], //no need to enter all the entities here if autoLoadEntities is true and Typeorm.forfeature is added in all module imports
+        autoLoadEntities: true,
         type: 'postgres',
         host: 'localhost',
         port: 5432,
@@ -31,7 +34,7 @@ import { Post } from './posts/post.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
 
 //use this if hardcoding the values
 // TypeOrmModule.forRoot({

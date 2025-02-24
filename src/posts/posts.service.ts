@@ -4,6 +4,7 @@ import { CreatePostDto } from './dtos/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from './post.entity';
 import { Repository } from 'typeorm';
+import { PostSEO } from 'src/posts_SEO/entity/posts_SEO.entity';
 
 @Injectable()
 export class PostsService {
@@ -12,26 +13,41 @@ export class PostsService {
 
     @InjectRepository(Post)
     private PostsRepository: Repository<Post>,
-  ) {}
-  getAllPosts(userid: number) {
-    return [
-      {
-        title: `Post 1`,
-        content: 'This is a post 1',
-        author: this.usersService.getUser(userid),
-      },
-      {
-        title: `Post 2`,
-        content: 'This is a post 2',
-        author: this.usersService.getUser(userid),
-      },
-    ];
+
+    @InjectRepository(PostSEO)
+    private PostsSEORepository: Repository<PostSEO>,
+  ) { }
+
+
+  getAllPosts() {
+    return this.PostsRepository.find({
+      relations: ['seo'],
+    });
   }
 
-  async createPost(CreatePostDto: CreatePostDto) {
+  // async createPost(CreatePostDto: CreatePostDto) { //without cascade
+
+  //   let metaSEO = CreatePostDto.seo ? this.PostsSEORepository.create(CreatePostDto.seo) : null;
+
+  //   if (metaSEO) {
+  //     metaSEO = await this.PostsSEORepository.save(metaSEO);
+  //   }
+
+  //   let newPost = this.PostsRepository.create(CreatePostDto);
+
+  //   if (metaSEO) {
+  //     newPost.seo = metaSEO;
+  //   }
+
+  //   newPost = await this.PostsRepository.save(newPost);
+
+  //   return newPost;
+  // }
+
+
+  async createPost(CreatePostDto: CreatePostDto) { //with cascade
     let newPost = this.PostsRepository.create(CreatePostDto);
     newPost = await this.PostsRepository.save(newPost);
-
     return newPost;
   }
 }
