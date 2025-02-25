@@ -19,11 +19,11 @@ export class PostsService {
   ) { }
 
 
-  getAllPosts() {
-    return this.PostsRepository.find({
-      relations: ['seo'],
-    });
-  }
+  // getAllPosts() {
+  //   return this.PostsRepository.find({
+  //     relations: ['seo'],
+  //   });
+  // }
 
   // async createPost(CreatePostDto: CreatePostDto) { //without cascade
 
@@ -44,10 +44,26 @@ export class PostsService {
   //   return newPost;
   // }
 
+  getAllPosts() {
+    return this.PostsRepository.find();
+  }
+
 
   async createPost(CreatePostDto: CreatePostDto) { //with cascade
     let newPost = this.PostsRepository.create(CreatePostDto);
     newPost = await this.PostsRepository.save(newPost);
     return newPost;
+  }
+
+  async deletePost(id: number) {
+
+    let post = await this.PostsRepository.findOneBy({ id });
+
+    await this.PostsRepository.delete(id);
+
+    await this.PostsSEORepository.delete(post.seo.id);
+
+    return { message: 'Post deleted successfully' };
+
   }
 }

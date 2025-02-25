@@ -19,7 +19,7 @@ import { PostSEO } from './posts_SEO/entity/posts_SEO.entity';
       imports: [],
       inject: [],
       useFactory: async () => ({
-        entities: [User, Post, Tag, PostSEO], //no need to enter all the entities here if autoLoadEntities is true and Typeorm.forfeature is added in all module imports
+        entities: [User, Post, Tag, PostSEO], //no need to enter all the entities one by one here if autoLoadEntities is true and Typeorm.forfeature is added in all module imports
         autoLoadEntities: true,
         type: 'postgres',
         host: 'localhost',

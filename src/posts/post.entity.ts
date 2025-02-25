@@ -65,7 +65,8 @@ export class Post {
   publishedAt: Date;
 
   @OneToOne(() => PostSEO, {
-    cascade: true
+    cascade: true, //cascade means if the post is deleted the seo will also be deleted
+    eager: true, //eager means when we fetch the post the seo will also be fetched
   })
   @JoinColumn()
   seo: PostSEO;

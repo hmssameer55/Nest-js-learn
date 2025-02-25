@@ -18,9 +18,10 @@ Content-Type: application/json
     // "tags":["sameer"]
 }
 
+DELETE http://localhost:3000/posts/?id=9
+
 PATCH http://localhost:3000/posts
 Content-Type: application/json
-
 {
     "tags":["sameer"]
 }

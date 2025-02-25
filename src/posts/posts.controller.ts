@@ -1,4 +1,4 @@
-import { Body, Controller, Param, ParseIntPipe, Ip } from '@nestjs/common';
+import { Body, Controller, Param, ParseIntPipe, Ip, Query, Delete } from '@nestjs/common';
 import { Get, Post, Patch } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dtos/create-post.dto';
@@ -25,6 +25,16 @@ export class PostsController {
   @ApiOperation({ summary: 'Create a new post' })
   public createPosts(@Body() createPostsDto: CreatePostDto) {
     return this.PostsService.createPost(createPostsDto);
+  }
+
+  @Delete()
+  @ApiOperation({ summary: 'Delete a post' })
+  @ApiResponse({
+    status: 200,
+    description: 'The post has been successfully deleted.',
+  })
+  public deletePosts(@Query('id', ParseIntPipe) id: number) {
+    return this.PostsService.deletePost(id);
   }
 
   @Patch()
