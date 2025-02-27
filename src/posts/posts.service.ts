@@ -42,27 +42,31 @@ export class PostsService {
   //   newPost = await this.PostsRepository.save(newPost);
 
   //   return newPost;
-  // }
+  // } 
 
   getAllPosts() {
-    return this.PostsRepository.find();
+    return this.PostsRepository.find({
+      relations: {
+        author: true,
+        seo: true,
+      }
+    });
   }
 
 
   async createPost(CreatePostDto: CreatePostDto) { //with cascade
-    let newPost = this.PostsRepository.create(CreatePostDto);
+
+    let user = await this.usersService.getUser(CreatePostDto.authorId)
+
+    let newPost = this.PostsRepository.create({ ...CreatePostDto, author: user });
     newPost = await this.PostsRepository.save(newPost);
     return newPost;
   }
 
   async deletePost(id: number) {
-
-    let post = await this.PostsRepository.findOneBy({ id });
-
+    // let post = await this.PostsRepository.findOneBy({ id });
     await this.PostsRepository.delete(id);
-
-    await this.PostsSEORepository.delete(post.seo.id);
-
+    // await this.PostsSEORepository.delete(post.seo.id);
     return { message: 'Post deleted successfully' };
 
   }

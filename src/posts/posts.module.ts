@@ -11,4 +11,5 @@ import { PostSEO } from 'src/posts_SEO/entity/posts_SEO.entity';
   providers: [PostsService],
   imports: [UsersModule, TypeOrmModule.forFeature([Post, PostSEO])],
 })
+
 export class PostsModule { }

@@ -14,7 +14,7 @@ export class UsersService {
 
     @InjectRepository(User)
     private UsersRepository: Repository<User>,
-  ) {}
+  ) { }
 
   public async createUser(CreateUserDto: CreateUserDto) {
     const existingUser = await this.UsersRepository.findOne({
@@ -55,19 +55,8 @@ export class UsersService {
     }
   }
 
-  getUser(id: number) {
-    const users = [
-      {
-        id: 1,
-        name: 'John Doe',
-        email: 'example@gmail.com',
-      },
-      {
-        id: 2,
-        name: 'cena Doe',
-        email: 'example@gmail.com',
-      },
-    ];
-    return users.find((user) => user.id === id);
+  public async getUser(id: number) {
+    const user = await this.UsersRepository.findOneBy({ id });
+    return user;
   }
 }

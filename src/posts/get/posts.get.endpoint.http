@@ -3,7 +3,7 @@ GET http://localhost:3000/posts/
 POST http://localhost:3000/posts
 Content-Type: application/json
 {
-    "title":"with cascade",
+    "title":"with author id",
     "postType" : "post",
     "slug" : "abc",
     "status": "draft",
@@ -14,11 +14,12 @@ Content-Type: application/json
         "metaTitle":"sameer",
         "metaDescription":"sameer",
         "metaKeywords":"sameer"
-    }
+    },
+    "authorId":1
     // "tags":["sameer"]
 }
 
-DELETE http://localhost:3000/posts/?id=9
+DELETE http://localhost:3000/posts/?id=2
 
 PATCH http://localhost:3000/posts
 Content-Type: application/json

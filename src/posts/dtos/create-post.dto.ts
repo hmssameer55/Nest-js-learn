@@ -4,6 +4,7 @@ import {
   IsDate,
   IsEmail,
   IsEnum,
+  IsInt,
   IsISO8601,
   IsNotEmpty,
   IsOptional,
@@ -128,4 +129,14 @@ export class CreatePostDto {
   @IsOptional()
   @Type(() => CreatePostSEODto)
   seo: CreatePostSEODto | null;
+
+  @ApiProperty({
+    example: 1,
+    description: 'The id of the author of the post',
+    format: 'number',
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsInt()
+  authorId: number;
 }
