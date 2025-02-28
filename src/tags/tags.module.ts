@@ -10,4 +10,4 @@ import { Tag } from './entity/tags.entity';
   exports: [TagsService],
   imports: [TypeOrmModule.forFeature([Tag])],
 })
-export class Tags { }
+export class TagsModule { }

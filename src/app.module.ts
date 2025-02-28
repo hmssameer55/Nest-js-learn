@@ -9,12 +9,14 @@ import { User } from './users/user.entity';
 import { Post } from './posts/post.entity';
 import { Tag } from './tags/entity/tags.entity';
 import { PostSEO } from './posts_SEO/entity/posts_SEO.entity';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
     UsersModule,
     PostsModule,
     AuthModule,
+    TagsModule,
     TypeOrmModule.forRootAsync({
       imports: [],
       inject: [],
