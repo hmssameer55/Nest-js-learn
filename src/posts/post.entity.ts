@@ -1,8 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { PostType } from './enums/postType.enum';
 import { PostStatus } from './enums/postStatus.enum';
 import { PostSEO } from 'src/posts_SEO/entity/posts_SEO.entity';
 import { User } from 'src/users/user.entity';
+import { Tag } from 'src/tags/entity/tags.entity';
 
 @Entity()
 export class Post {
@@ -66,16 +76,17 @@ export class Post {
   publishedAt: Date;
 
   @OneToOne(() => PostSEO, (postSeo) => postSeo.post, {
-    cascade: true,
+    cascade: true, // to save the seo when we save the post
     // eager: true, //eager means when we fetch the post the seo will also be fetched
   })
   seo: PostSEO;
 
-
-  @ManyToOne(() => User, user => user.posts, {
+  @ManyToOne(() => User, (user) => user.posts, {
     // eager: true // to fetch the author when we fetch the post
   })
   author: User;
 
-  tags: string[];
+  @ManyToMany(() => Tag)
+  @JoinTable()
+  tags: Tag[];
 }

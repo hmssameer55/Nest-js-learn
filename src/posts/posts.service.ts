@@ -5,19 +5,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from './post.entity';
 import { Repository } from 'typeorm';
 import { PostSEO } from 'src/posts_SEO/entity/posts_SEO.entity';
+import { TagsService } from 'src/tags/service/tags.service';
 
 @Injectable()
 export class PostsService {
   constructor(
     private readonly usersService: UsersService,
 
+    private readonly tagsService: TagsService,
+
     @InjectRepository(Post)
     private PostsRepository: Repository<Post>,
 
     @InjectRepository(PostSEO)
     private PostsSEORepository: Repository<PostSEO>,
-  ) { }
-
+  ) {}
 
   // getAllPosts() {
   //   return this.PostsRepository.find({
@@ -42,25 +44,31 @@ export class PostsService {
   //   newPost = await this.PostsRepository.save(newPost);
 
   //   return newPost;
-  // } 
+  // }
 
   getAllPosts() {
     return this.PostsRepository.find({
       relations: {
-        author: true,
+        author: true, //we can also use cascade true directly in entity file instead of defining relations here
         seo: true,
-      }
+        tags: true,
+      },
     });
   }
 
+  async createPost(CreatePostDto: CreatePostDto) {
+    //with cascade
 
-  async createPost(CreatePostDto: CreatePostDto) { //with cascade
+    let user = await this.usersService.getUser(CreatePostDto.authorId);
 
-    let user = await this.usersService.getUser(CreatePostDto.authorId)
+    let tags = await this.tagsService.findMultipleTags(CreatePostDto.tags);
 
-    let newPost = this.PostsRepository.create({ ...CreatePostDto, author: user });
-    newPost = await this.PostsRepository.save(newPost);
-    return newPost;
+    let newPost = this.PostsRepository.create({
+      ...CreatePostDto,
+      author: user,
+      tags,
+    });
+    return await this.PostsRepository.save(newPost);
   }
 
   async deletePost(id: number) {
@@ -68,6 +76,5 @@ export class PostsService {
     await this.PostsRepository.delete(id);
     // await this.PostsSEORepository.delete(post.seo.id);
     return { message: 'Post deleted successfully' };
-
   }
 }

@@ -117,13 +117,13 @@ export class CreatePostDto {
 
   @ApiPropertyOptional({
     type: 'array',
-    example: ['tag1', 'tag2'],
+    example: [1, 2],
     description: 'The tags of the post (optional)',
   })
   @IsArray()
-  @IsString({ each: true })
+  @IsInt({ each: true })
   @IsOptional()
-  tags?: string[];
+  tags?: number[];
 
   @ApiPropertyOptional()
   @IsOptional()

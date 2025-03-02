@@ -15,8 +15,8 @@ Content-Type: application/json
         "metaDescription":"sameer",
         "metaKeywords":"sameer"
     },
-    "authorId":1
-    // "tags":["sameer"]
+    "authorId":1,
+    "tags":[1]
 }
 
 DELETE http://localhost:3000/posts/?id=2
