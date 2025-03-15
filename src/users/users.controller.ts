@@ -21,9 +21,9 @@ import { GetUserParamDto } from './dtos/get-user-param.dto';
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
-  constructor(private readonly UsersService: UsersService) {}
+  constructor(private readonly UsersService: UsersService) {} 
 
-  @Get('/:id?')
+  @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({
     status: 200,
@@ -50,6 +50,15 @@ export class UsersController {
   ): string[] {
     return this.UsersService.getAllUsers(GetUserParamDto, limit, page);
   }
+
+  @Get('/:id')
+  @ApiOperation({ summary: 'Get user' })
+  public getUser(
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.UsersService.getUser(id)
+  }
+
 
   @Post()
   public createUsers(

@@ -44,6 +44,6 @@ export class PostsController {
     description: 'The post has been successfully updated.',
   })
   public updatePosts(@Body() patchPostDto: PatchPostDto) {
-    console.log(patchPostDto);
+    return this.PostsService.updatePost(patchPostDto)
   }
 }

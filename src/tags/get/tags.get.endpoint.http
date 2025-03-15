@@ -3,8 +3,12 @@ GET http://localhost:3000/tags
 POST http://localhost:3000/tags
 Content-Type: application/json
 {
-    "name":"javascript",
-    "slug" : "js javascript",
-    "description" : "javascript is dynamic programming language used to created interactive websites",
-    "featuredImageUrl": "www.js.com"
+    "name":"typescript",
+    "slug" : "ts typescript",
+    "description" : "typescript is static programming language used to created interactive websites",
+    "featuredImageUrl": "www.ts.com"
 }
+
+DELETE http://localhost:3000/tags?id=2
+
+DELETE http://localhost:3000/tags/soft-delete?id=3

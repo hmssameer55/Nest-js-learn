@@ -10,6 +10,7 @@ import { Post } from './posts/post.entity';
 import { Tag } from './tags/entity/tags.entity';
 import { PostSEO } from './posts_SEO/entity/posts_SEO.entity';
 import { TagsModule } from './tags/tags.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -17,19 +18,23 @@ import { TagsModule } from './tags/tags.module';
     PostsModule,
     AuthModule,
     TagsModule,
+    ConfigModule.forRoot({
+      isGlobal:true,
+    }),
     TypeOrmModule.forRootAsync({
-      imports: [],
-      inject: [],
-      useFactory: async () => ({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService:ConfigService) => ({
         entities: [User, Post, Tag, PostSEO], //no need to enter all the entities one by one here if autoLoadEntities is true and Typeorm.forfeature is added in all module imports
         autoLoadEntities: true,
         type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'postgres',
-        password: '123456',
-        database: 'nestjs',
-        synchronize: true, //automatically does migrations keeps nestjs and db in sync
+
+        host: configService.get('DB_HOST'),
+        port:  +configService.get('DB_PORT'),
+        username:  configService.get('DB_USER'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
+        synchronize: configService.get('DB_SYNC'), //automatically does migrations keeps nestjs and db in sync
       }),
     }),
   ],
@@ -37,15 +42,3 @@ import { TagsModule } from './tags/tags.module';
   providers: [AppService],
 })
 export class AppModule { }
-
-//use this if hardcoding the values
-// TypeOrmModule.forRoot({
-//   type: 'postgres',
-//   host: 'localhost',
-//   port: 5432,
-//   username: 'postgres',
-//   password: '123456',
-//   database: 'nestjs',
-//   entities: [],
-//   synchronize: true,
-// })

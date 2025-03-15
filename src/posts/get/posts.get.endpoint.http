@@ -3,7 +3,7 @@ GET http://localhost:3000/posts/
 POST http://localhost:3000/posts
 Content-Type: application/json
 {
-    "title":"with author id",
+    "title":"with author id 5",
     "postType" : "post",
     "slug" : "abc",
     "status": "draft",
@@ -16,13 +16,15 @@ Content-Type: application/json
         "metaKeywords":"sameer"
     },
     "authorId":1,
-    "tags":[1]
+    "tags":[1,2]
 }
-
+ 
 DELETE http://localhost:3000/posts/?id=2
 
 PATCH http://localhost:3000/posts
 Content-Type: application/json
 {
-    "tags":["sameer"]
+    "id":3,
+    "tags":[1,90],
+    "title":"title updated to ts"
 }
