@@ -1,10 +1,18 @@
-import { Injectable, Inject, forwardRef,  BadRequestException, RequestTimeoutException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  forwardRef,
+  BadRequestException,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { GetUserParamDto } from './dtos/get-user-param.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { UsersCreateManyProvider } from './providers/users-create-many.providers';
+import { CreateManyUsersDto } from './dtos/create-many-users.dto';
 
 @Injectable()
 export class UsersService {
@@ -13,29 +21,33 @@ export class UsersService {
     private readonly authService: AuthService,
 
     @InjectRepository(User)
-    private UsersRepository: Repository<User>,
-  ) { }
+    private readonly UsersRepository: Repository<User>,
+
+    private readonly usersCreateManyProvider: UsersCreateManyProvider,
+  ) {}
 
   public async createUser(CreateUserDto: CreateUserDto) {
-
-    let existingUser = undefined
+    let existingUser = undefined;
 
     try {
-       existingUser = await this.UsersRepository.findOne({
+      existingUser = await this.UsersRepository.findOne({
         where: { email: CreateUserDto.email },
       });
     } catch (error) {
-        throw new RequestTimeoutException("connection to db failed")
+      throw new RequestTimeoutException('connection to db failed');
     }
 
-    if(existingUser){
-      throw new BadRequestException("User already exists")
+    if (existingUser) {
+      throw new BadRequestException('User already exists');
     }
 
     let newUser = this.UsersRepository.create(CreateUserDto);
     newUser = await this.UsersRepository.save(newUser);
     return newUser;
+  }
 
+  public async createManyUser(createManyUsersDto: CreateManyUsersDto) {
+    return await this.usersCreateManyProvider.createMany(createManyUsersDto);
   }
 
   public getAllUsers(
@@ -67,11 +79,10 @@ export class UsersService {
   }
 
   public async getUser(id: number) {
-    
     const user = await this.UsersRepository.findOneBy({ id });
 
-    if(!user){
-      throw new BadRequestException("user does not exist")
+    if (!user) {
+      throw new BadRequestException('user does not exist');
     }
 
     return user;

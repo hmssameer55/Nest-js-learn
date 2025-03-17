@@ -17,11 +17,12 @@ import { PatchUserDto } from './dtos/patch-user.dto';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUserParamDto } from './dtos/get-user-param.dto';
+import { CreateManyUsersDto } from './dtos/create-many-users.dto';
 
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
-  constructor(private readonly UsersService: UsersService) {} 
+  constructor(private readonly UsersService: UsersService) {}
 
   @Get()
   @ApiOperation({ summary: 'Get all users' })
@@ -53,12 +54,9 @@ export class UsersController {
 
   @Get('/:id')
   @ApiOperation({ summary: 'Get user' })
-  public getUser(
-    @Param('id', ParseIntPipe) id: number,
-  ) {
-    return this.UsersService.getUser(id)
+  public getUser(@Param('id', ParseIntPipe) id: number) {
+    return this.UsersService.getUser(id);
   }
-
 
   @Post()
   public createUsers(
@@ -68,6 +66,12 @@ export class UsersController {
   ) {
     // return 'You sent a post request to users';
     return this.UsersService.createUser(CreateUserDto);
+  }
+
+  @Post('create-many')
+  public createManyUsers(@Body() createManyUsersDto: CreateManyUsersDto) {
+    // return 'You sent a post request to users';
+    return this.UsersService.createManyUser(createManyUsersDto);
   }
 
   @Patch()

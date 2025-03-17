@@ -13,6 +13,27 @@ Content-Type: application/json
     // "isAuth":true
 }
 
+
+POST http://localhost:3000/users/create-many
+Content-Type: application/json
+{
+    "users":[
+        {
+            "firstname":"tom",
+            "lastname":"cat",
+            "email":"tom@gmail.com",
+            "password":"Sameer@62"
+         }, 
+         {
+            "firstname":"jackiechan",
+            "lastname":"chan",
+            "email":"hmss@gmail.com",
+            "password":"Sameer@62"
+         }
+    ]
+}
+
+
 PATCH http://localhost:3000/users
 Content-Type: application/json
 
