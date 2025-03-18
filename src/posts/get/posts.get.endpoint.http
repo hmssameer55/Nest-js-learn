@@ -1,9 +1,22 @@
+{{
+  const date = new Date();
+  exports.startDate = date.toString()
+  exports.endDate = date.toString()
+}}
+
+
 GET http://localhost:3000/posts/
+?startDate={{startDate}}
+&endDate={{endDate}}
+&limit=3
+&page=1
+
+GET http://localhost:3000/posts/user?id=1
 
 POST http://localhost:3000/posts
 Content-Type: application/json
 {
-    "title":"with author id 5",
+    "title":"with author id 14",
     "postType" : "post",
     "slug" : "abc",
     "status": "draft",

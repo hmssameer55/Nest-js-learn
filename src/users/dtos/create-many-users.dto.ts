@@ -26,6 +26,6 @@ export class CreateManyUsersDto {
   @IsNotEmpty()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => CreateUserDto)
+  @Type(() => CreateUserDto) //need to define this type for nested dto's mandatory
   users: CreateUserDto[];
 }

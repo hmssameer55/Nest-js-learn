@@ -1,19 +1,34 @@
-import { Body, Controller, Param, ParseIntPipe, Ip, Query, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  ParseIntPipe,
+  Ip,
+  Query,
+  Delete,
+} from '@nestjs/common';
 import { Get, Post, Patch } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { PatchPostDto } from './dtos/patch-post.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { GetPostsDto } from './dtos/get-post.dto';
 
 @ApiTags('posts')
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly PostsService: PostsService) { }
+  constructor(private readonly PostsService: PostsService) {}
 
-  @Get('/')
-  @ApiOperation({ summary: 'Get a post' })
-  public getPosts() {
-    return this.PostsService.getAllPosts();
+  @Get()
+  @ApiOperation({ summary: 'Get all posts' })
+  public getPosts(@Query() postQuery: GetPostsDto) {
+    return this.PostsService.getAllPosts(postQuery);
+  }
+
+  @Get('/user')
+  @ApiOperation({ summary: 'Get all posts user-specific' })
+  public getUserPosts(@Query('id', ParseIntPipe) id: number) {
+    return this.PostsService.getUserPosts(id);
   }
 
   @Post()
@@ -44,6 +59,6 @@ export class PostsController {
     description: 'The post has been successfully updated.',
   })
   public updatePosts(@Body() patchPostDto: PatchPostDto) {
-    return this.PostsService.updatePost(patchPostDto)
+    return this.PostsService.updatePost(patchPostDto);
   }
 }
