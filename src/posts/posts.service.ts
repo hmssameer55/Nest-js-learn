@@ -9,6 +9,12 @@ import { TagsService } from 'src/tags/service/tags.service';
 import { PatchPostDto } from './dtos/patch-post.dto';
 import { ConfigService } from '@nestjs/config';
 import { GetPostsDto } from './dtos/get-post.dto';
+import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class PostsService {
@@ -19,6 +25,8 @@ export class PostsService {
 
     private readonly tagsService: TagsService,
 
+    private readonly paginationProvider: PaginationProvider,
+
     @InjectRepository(Post)
     private PostsRepository: Repository<Post>,
 
@@ -26,19 +34,46 @@ export class PostsService {
     private PostsSEORepository: Repository<PostSEO>,
   ) {}
 
-  getAllPosts(postQuery: GetPostsDto) {
-    return this.PostsRepository.find({
-      // relations: {
-      //   author: true, //we can also use cascade true directly in entity file instead of defining relations here
-      //   seo: true,
-      //   tags: true,
-      // },
-      take: postQuery.limit, //take means take 10 posts from the database at one time
-      skip: (postQuery.page - 1) * postQuery.limit, // 1-1 * 10
-    });
+  public getAllPosts(postQuery: GetPostsDto) {
+    //method 1
+
+    // return this.PostsRepository.find({
+    //   relations: {
+    //     author: true, //we can also use cascade true directly in entity file instead of defining relations here
+    //     seo: true,
+    //     tags: true,
+    //   },
+    //   take: postQuery.limit, //take means take 10 posts from the database at one time
+    //   skip: (postQuery.page - 1) * postQuery.limit, // 1-1 * 10
+    // });
+
+    //method 2
+
+    // return this.paginationProvider.paginateQuery(
+    //   {
+    //     limit: postQuery.limit,
+    //     page: postQuery.page,
+    //   },
+    //   this.PostsRepository,
+    // );
+
+    // method 3
+
+    const paginationOptions: IPaginationOptions = {
+      page: postQuery.page,
+      limit: postQuery.limit,
+      route: postQuery.route,
+    };
+
+    const queryBuilder = this.PostsRepository.createQueryBuilder('post')
+      .leftJoinAndSelect('post.author', 'author') // Fetch author details
+      .leftJoinAndSelect('post.seo', 'seo') // Fetch SEO details
+      .leftJoinAndSelect('post.tags', 'tags'); // Fetch tags details
+
+    return paginate<Post>(queryBuilder, paginationOptions);
   }
 
-  async getUserPosts(id: number) {
+  public async getUserPosts(id: number) {
     const user = await this.usersService.getUser(id);
 
     if (!user) {
@@ -54,7 +89,7 @@ export class PostsService {
     return posts;
   }
 
-  async createPost(CreatePostDto: CreatePostDto) {
+  public async createPost(CreatePostDto: CreatePostDto) {
     //with cascade
 
     let user = await this.usersService.getUser(CreatePostDto.authorId);
@@ -69,7 +104,7 @@ export class PostsService {
     return await this.PostsRepository.save(newPost);
   }
 
-  async deletePost(id: number) {
+  public async deletePost(id: number) {
     // let post = await this.PostsRepository.findOneBy({ id });
     await this.PostsRepository.delete(id);
     // await this.PostsSEORepository.delete(post.seo.id);

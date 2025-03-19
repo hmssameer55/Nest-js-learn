@@ -5,13 +5,14 @@ import { PaginationQueryDto } from 'src/common/pagination/dtos/pagination.query.
 class BasePostDto {
   @IsDate()
   @IsOptional()
-  startDate: Date;
+  startDate?: Date;
 
   @IsDate()
   @IsOptional()
-  endDate: Date;
+  endDate?: Date;
 }
 
+//combining two dto's
 export class GetPostsDto extends IntersectionType(
   BasePostDto,
   PaginationQueryDto,

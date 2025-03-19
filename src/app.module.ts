@@ -19,19 +19,18 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     AuthModule,
     TagsModule,
     ConfigModule.forRoot({
-      isGlobal:true,
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService:ConfigService) => ({
+      useFactory: async (configService: ConfigService) => ({
         entities: [User, Post, Tag, PostSEO], //no need to enter all the entities one by one here if autoLoadEntities is true and Typeorm.forfeature is added in all module imports
         autoLoadEntities: true,
         type: 'postgres',
-
         host: configService.get('DB_HOST'),
-        port:  +configService.get('DB_PORT'),
-        username:  configService.get('DB_USER'),
+        port: +configService.get('DB_PORT'),
+        username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: configService.get('DB_SYNC'), //automatically does migrations keeps nestjs and db in sync
@@ -41,4 +40,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
