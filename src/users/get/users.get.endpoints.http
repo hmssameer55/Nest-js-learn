@@ -8,8 +8,8 @@ Content-Type: application/json
 {
     "firstname":"sameer",
     "lastname":"sha",
-    "email":"hms@gmail.com",
-    "password":"Sameer@62"
+    "email":"hms2@gmail.com",
+    "password":"Sameer@6251"
     // "isAuth":true
 }
 

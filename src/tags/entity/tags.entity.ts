@@ -1,5 +1,6 @@
 import { Post } from 'src/posts/post.entity';
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -11,7 +12,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Tag {
+export class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -37,8 +38,8 @@ export class Tag {
   })
   description: string;
 
-  @ManyToMany(() => Post, (post)=> post.tags,{
-    onDelete:'CASCADE'
+  @ManyToMany(() => Post, (post) => post.tags, {
+    onDelete: 'CASCADE',
   })
   posts: Post[];
 

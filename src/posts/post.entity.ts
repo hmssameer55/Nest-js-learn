@@ -7,6 +7,7 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  BaseEntity,
 } from 'typeorm';
 import { PostType } from './enums/postType.enum';
 import { PostStatus } from './enums/postStatus.enum';
@@ -15,7 +16,7 @@ import { User } from 'src/users/user.entity';
 import { Tag } from 'src/tags/entity/tags.entity';
 
 @Entity()
-export class Post {
+export class Post extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -86,7 +87,7 @@ export class Post {
   })
   author: User;
 
-  @ManyToMany(() => Tag, (tag)=> tag.posts)
+  @ManyToMany(() => Tag, (tag) => tag.posts)
   @JoinTable()
   tags: Tag[];
 }

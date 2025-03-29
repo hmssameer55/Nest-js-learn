@@ -36,6 +36,60 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         synchronize: configService.get('DB_SYNC'), //automatically does migrations keeps nestjs and db in sync
       }),
     }),
+    // (async () => {
+    //   const AdminJS = (await import('adminjs')).default;
+    //   const { Database, Resource } = await import('@adminjs/typeorm');
+    //   const { AdminModule } = await import('@adminjs/nestjs');
+    //   const { ComponentLoader } = await import('adminjs');
+    //   const importExportFeature = (await import('@adminjs/import-export'))
+    //     .default;
+
+    //   AdminJS.registerAdapter({ Resource, Database });
+
+    //   const loader = new ComponentLoader();
+
+    //   return AdminModule.createAdminAsync({
+    //     useFactory: () => ({
+    //       adminJsOptions: {
+    //         rootPath: '/admin',
+    //         componentLoader: loader,
+    //         branding: {
+    //           companyName: 'NestJS Admin Panel',
+    //           // logo: 'http://localhost:3000/static/logo.png', // ✅ Or any external logo
+    //           // favicon: 'http://localhost:3000/static/favicon.ico', // Optional
+    //           withMadeWithLove: false, // Optional
+    //         },
+
+    //         resources: [
+    //           {
+    //             resource: User,
+    //             features: [importExportFeature({ componentLoader: loader })],
+    //           },
+    //           {
+    //             resource: Post,
+    //             options: {
+    //               properties: {
+    //                 title: {
+    //                   isTitle: true,
+    //                   isSearchable: true,
+    //                 },
+    //                 content: {
+    //                   type: 'richtext', // Optional - shows rich editor UI
+    //                 },
+    //               },
+    //             },
+    //             features: [importExportFeature({ componentLoader: loader })],
+    //           },
+
+    //           {
+    //             resource: Tag,
+    //             features: [importExportFeature({ componentLoader: loader })],
+    //           },
+    //         ],
+    //       },
+    //     }),
+    //   });
+    // })(),
   ],
   controllers: [AppController],
   providers: [AppService],

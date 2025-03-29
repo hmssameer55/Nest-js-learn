@@ -13,6 +13,8 @@ import { Repository, DataSource } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersCreateManyProvider } from './providers/users-create-many.providers';
 import { CreateManyUsersDto } from './dtos/create-many-users.dto';
+import { CreateUserProvider } from './providers/create-user.provider';
+import { FindUserByEmailProvider } from './providers/find-user-by-email.provider';
 
 @Injectable()
 export class UsersService {
@@ -24,26 +26,14 @@ export class UsersService {
     private readonly UsersRepository: Repository<User>,
 
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+
+    private readonly createUserProvider: CreateUserProvider,
+
+    private readonly findUserByEmailProvider: FindUserByEmailProvider,
   ) {}
 
   public async createUser(CreateUserDto: CreateUserDto) {
-    let existingUser = undefined;
-
-    try {
-      existingUser = await this.UsersRepository.findOne({
-        where: { email: CreateUserDto.email },
-      });
-    } catch (error) {
-      throw new RequestTimeoutException('connection to db failed');
-    }
-
-    if (existingUser) {
-      throw new BadRequestException('User already exists');
-    }
-
-    let newUser = this.UsersRepository.create(CreateUserDto);
-    newUser = await this.UsersRepository.save(newUser);
-    return newUser;
+    return this.createUserProvider.createUser(CreateUserDto);
   }
 
   public async createManyUser(createManyUsersDto: CreateManyUsersDto) {
@@ -86,5 +76,9 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  public async findUserByEmail(email: string) {
+    return await this.findUserByEmailProvider.findUserByEmail(email);
   }
 }
